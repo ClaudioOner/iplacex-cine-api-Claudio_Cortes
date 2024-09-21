@@ -18,14 +18,15 @@ app.use('/api', peliculaRoutes);
 app.use('/api', actorRoutes);
 
 // Conexión a la base de datos
-await client.connect()
-    .then(() => {
+(async () => {
+    try {
+        await client.connect();
         console.log('Conectado con éxito al Cluster!');
-        app.listen(PORT, '0.0.0.0', () => { // Escucha en 0.0.0.0 para ser accesible externamente
+        app.listen(PORT, '0.0.0.0', () => {
             console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
         });
-    })
-    .catch((error) => {
+    } catch (error) {
         console.error('ERROR al conectar al Cluster de Atlas:', error);
         process.exit(1); // Termina el proceso si no se puede conectar
-    });
+    }
+})();
