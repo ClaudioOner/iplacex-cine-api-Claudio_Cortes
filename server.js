@@ -1,27 +1,31 @@
-import express, { urlencoded } from 'express'
-import cors from 'cors'
-import client from './src/common/db.js'
-import peliculaRoutes from './src/pelicula/routes.js'
-import actorRoutes from './src/actor/routes.js'
+import express, { urlencoded } from 'express';
+import cors from 'cors';
+import client from './src/common/db.js'; // Asegúrate de que esto esté configurado correctamente
+import peliculaRoutes from './src/pelicula/routes.js';
+import actorRoutes from './src/actor/routes.js';
 
+const PORT = process.env.PORT || 3000; // Usa la variable de entorno proporcionada por Render
+const app = express();
 
-const PORTS = 3000 || 4000
-const app = express()
+app.use(express.json());
+app.use(urlencoded({ extended: true }));
+app.use(cors());
 
-app.use(express.json())
-app.use(urlencoded({ extended: true }))
-app.use(cors())
+app.all('/', (req, res) => {
+    return res.status(200).send('Bienvenido al cine Iplacex');
+});
+app.use('/api', peliculaRoutes);
+app.use('/api', actorRoutes);
 
-app.all('/', (req, res) => { return res.status(200).send('Bienvenido al cine Iplacex') })
-app.use('/api',peliculaRoutes)
-app.use('/api',actorRoutes)
-
-
+// Conexión a la base de datos
 await client.connect()
-.then(() => {
-    console.log('Conectado con exito al Cluster !')
-    app.listen(PORTS,() => {console.log(`Servidor corriendo en http://localhost:${PORTS}`)})
-})
-.catch(() => {
-    console.log(' ERROR al conectar al Cluster de Atlas')
-})
+    .then(() => {
+        console.log('Conectado con éxito al Cluster!');
+        app.listen(PORT, '0.0.0.0', () => { // Escucha en 0.0.0.0 para ser accesible externamente
+            console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('ERROR al conectar al Cluster de Atlas:', error);
+        process.exit(1); // Termina el proceso si no se puede conectar
+    });
