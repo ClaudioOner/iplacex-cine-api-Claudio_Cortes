@@ -4,7 +4,7 @@ import client from './src/common/db.js'; // Asegúrate de que esto esté configu
 import peliculaRoutes from './src/pelicula/routes.js';
 import actorRoutes from './src/actor/routes.js';
 
-const PORT = process.env.PORT || 3000; // Usa la variable de entorno proporcionada por Render
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -14,14 +14,16 @@ app.use(cors());
 app.all('/', (req, res) => {
     return res.status(200).send('Bienvenido al cine Iplacex');
 });
-app.use('/api', peliculaRoutes);
-app.use('/api', actorRoutes);
+
+app.use('/api/peliculas', peliculaRoutes);
+app.use('/api/actores', actorRoutes);
 
 // Conexión a la base de datos
 (async () => {
     try {
         await client.connect();
         console.log('Conectado con éxito al Cluster!');
+
         app.listen(PORT, '0.0.0.0', () => {
             console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
         });
