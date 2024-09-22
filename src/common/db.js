@@ -1,8 +1,7 @@
-import { MongoClient, ServerApiVersion } from 'mongodb'
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 
-
-
+const uri = 'mongodb+srv://ev3_express:MILfoxQWZdQJZ7UJ@cluster-express.ljt2z.mongodb.net/cine-db?retryWrites=true&w=majority&tls=true';
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -10,6 +9,6 @@ const client = new MongoClient(uri, {
         strict: true,
         deprecationErrors: true
     }
-})
+});
 
-export default client
+export default client;
