@@ -18,7 +18,7 @@ app.all('/', (req, res) => {
 app.use('/api/peliculas', peliculaRoutes);
 app.use('/api/actores', actorRoutes);
 
-// Conexión a la base de datos
+
 (async () => {
     try {
         await client.connect();
