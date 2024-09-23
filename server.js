@@ -1,6 +1,6 @@
 import express, { urlencoded } from 'express';
 import cors from 'cors';
-import client from './src/common/db.js'; // Asegúrate de que esto esté configurado correctamente
+import client from './src/common/db.js'; 
 import peliculaRoutes from './src/pelicula/routes.js';
 import actorRoutes from './src/actor/routes.js';
 
@@ -29,6 +29,6 @@ app.use('/api/actores', actorRoutes);
         });
     } catch (error) {
         console.error('ERROR al conectar al Cluster de Atlas:', error);
-        process.exit(1); // Termina el proceso si no se puede conectar
+        process.exit(1); 
     }
 })();
